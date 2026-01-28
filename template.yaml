@@ -5,8 +5,8 @@ Resources:
   expiryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./src/expiry
-      Handler: index.handler
+      CodeUri: .
+      Handler: ./src/expiry/index.handler
       Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 30
