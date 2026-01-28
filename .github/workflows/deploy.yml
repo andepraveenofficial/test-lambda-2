@@ -18,6 +18,9 @@ jobs:
 
       - run: npm install
 
+      - name: SAM Build
+        run: sam build
+
       - name: Zip files
         # run: zip -r test-lambda-2.zip node_modules package.json
         run: zip -r test-lambda-2.zip . -x ".git/*" -x ".github/*"  # Exclude .git and .github directories
@@ -32,9 +35,8 @@ jobs:
       - name: Upload to S3
         run: aws s3 cp test-lambda-2.zip s3://test-lambda-praveen-123/test-lambda-2.zip
 
-      - name: SAM Build
-        run: sam build
-        
+
+
       - name: Update Lambda
         run: |
           aws lambda update-function-code \
