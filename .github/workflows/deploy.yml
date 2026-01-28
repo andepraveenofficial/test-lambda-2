@@ -18,11 +18,12 @@ jobs:
 
       - run: npm install
 
+      - uses: aws-actions/setup-sam@v2
+
       - name: SAM Build
         run: sam build
 
       - name: Zip files
-        # run: zip -r test-lambda-2.zip node_modules package.json
         run: zip -r test-lambda-2.zip . -x ".git/*" -x ".github/*"  # Exclude .git and .github directories
 
       - name: Configure AWS
@@ -37,9 +38,11 @@ jobs:
 
 
 
-      - name: Update Lambda
+      - name: SAM Deploy
         run: |
-          aws lambda update-function-code \
-            --function-name test-lambda-2 \
+          sam deploy \
+            --stack-name test-lambda-stack \
             --s3-bucket test-lambda-praveen-123 \
-            --s3-key test-lambda-2.zip
+            --capabilities CAPABILITY_IAM \
+            --no-confirm-changeset \
+            --no-fail-on-empty-changeset

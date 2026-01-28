@@ -13,3 +13,6 @@
 - Create s3 bucketName : `test-lambda-praveen-123`
 - Create a lambda function : `test-lambda-2`
 - Add AWS credentials to `github` repository  
+
+### Test
+- test the sam :  `sam deploy --guided`
