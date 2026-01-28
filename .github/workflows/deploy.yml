@@ -1,4 +1,4 @@
-name: Deploy Test Lambda 1
+name: Deploy Test Lambda 2
 
 on:
   push:
@@ -23,9 +23,6 @@ jobs:
       - name: SAM Build
         run: sam build
 
-      - name: Zip files
-        run: zip -r test-lambda-2.zip . -x ".git/*" -x ".github/*"  # Exclude .git and .github directories
-
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -33,16 +30,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Upload to S3
-        run: aws s3 cp test-lambda-2.zip s3://test-lambda-praveen-123/test-lambda-2.zip
-
-
 
       - name: SAM Deploy
         run: |
           sam deploy \
             --stack-name test-lambda-stack \
-            --s3-bucket test-lambda-praveen-123 \
+            --region ap-south-1 \
+            --resolve-s3 \
             --capabilities CAPABILITY_IAM \
             --no-confirm-changeset \
             --no-fail-on-empty-changeset
