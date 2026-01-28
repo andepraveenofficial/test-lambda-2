@@ -32,6 +32,9 @@ jobs:
       - name: Upload to S3
         run: aws s3 cp test-lambda-2.zip s3://test-lambda-praveen-123/test-lambda-2.zip
 
+      - name: SAM Build
+        run: sam build
+        
       - name: Update Lambda
         run: |
           aws lambda update-function-code \

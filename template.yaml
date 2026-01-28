@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  expiryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src/expiry
+      Handler: index.handler
+      Runtime: nodejs20.x
+      MemorySize: 128
+      Timeout: 30
+      Events:
+        expirySchedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(2 minutes)  # Trigger Lambda using EventBridge schedule
+            Name: ExpiryTrigger
+            Enabled: true
+      Policies:
+        - AWSLambdaBasicExecutionRole
