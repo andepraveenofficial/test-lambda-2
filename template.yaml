@@ -19,3 +19,21 @@ Resources:
             Enabled: true
       Policies:
         - AWSLambdaBasicExecutionRole
+
+  payoutFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: ./src/payout/index.handler
+      Runtime: nodejs20.x
+      MemorySize: 128
+      Timeout: 30
+      Events:
+        expirySchedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(3 minutes)  # Trigger Lambda using EventBridge schedule
+            Name: PayoutTrigger
+            Enabled: true
+      Policies:
+        - AWSLambdaBasicExecutionRole
